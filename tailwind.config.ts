@@ -9,23 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: "#fffbeb",
-          100: "#fef3c7",
-          200: "#fde68a",
-          300: "#fcd34d",
-          400: "#fbbf24",
-          500: "#f59e0b",
-          600: "#d97706",
-          700: "#b45309",
-          800: "#92400e",
-          900: "#78350f",
-          950: "#451a03",
+        bite: {
+          red: "#A40000",
+          accent: "#F5A623",
+          bg: "#FFF8F3",
+          card: "#FFFFFF",
+          text: "#1A1A1A",
+          muted: "#6B6B6B",
         },
       },
       animation: {
-        "fade-in": "fadeIn 0.4s ease-out forwards",
-        "slide-up": "slideUp 0.4s ease-out forwards",
+        "fade-in": "fadeIn 0.3s ease-out forwards",
+        "slide-up": "slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "scale-in": "scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
       },
       keyframes: {
         fadeIn: {
@@ -33,8 +29,12 @@ const config: Config = {
           "100%": { opacity: "1" },
         },
         slideUp: {
-          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "0%": { opacity: "0", transform: "translateY(12px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        scaleIn: {
+          "0%": { opacity: "0", transform: "scale(0.96)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
         },
       },
     },
