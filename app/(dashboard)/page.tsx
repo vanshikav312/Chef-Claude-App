@@ -6,7 +6,41 @@ import RecipeDisplay from "@/components/RecipeDisplay";
 import NutritionCards from "@/components/NutritionCards";
 import { GeneratedRecipe } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
-import { Sparkles, HelpCircle } from "lucide-react";
+import { Sparkles, Layers, Flame, Clock, Bookmark, ArrowRight, Check, Award, Compass } from "lucide-react";
+
+// Premium High-Contrast Trending Starters Deck
+const TRENDING_RECIPES = [
+  {
+    name: "Tuscan Garlic Butter Shrimp",
+    cuisine: "Italian",
+    time: "20m",
+    calories: "420",
+    difficulty: "Easy",
+    image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80",
+    ingredients: ["Shrimp", "Garlic", "Butter", "Heavy Cream", "Spinach", "Sun-dried Tomatoes"],
+    diet: "None",
+  },
+  {
+    name: "Spicy Creamy Vegan Ramen",
+    cuisine: "Asian",
+    time: "25m",
+    calories: "510",
+    difficulty: "Medium",
+    image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=800&q=80",
+    ingredients: ["Ramen Noodles", "Coconut Milk", "Chili Paste", "Tofu", "Mushrooms", "Bok Choy"],
+    diet: "Vegan",
+  },
+  {
+    name: "Golden Paneer Tikka Masala",
+    cuisine: "Indian",
+    time: "30m",
+    calories: "580",
+    difficulty: "Medium",
+    image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=800&q=80",
+    ingredients: ["Paneer", "Yogurt", "Garam Masala", "Tomato Puree", "Onions", "Cashews"],
+    diet: "Vegetarian",
+  },
+];
 
 export default function DashboardPage() {
   const [ingredients, setIngredients] = useState<string[]>([]);
@@ -48,6 +82,10 @@ export default function DashboardPage() {
       }
 
       setRecipe(data.recipe);
+      // Smooth scroll down to output
+      setTimeout(() => {
+        window.scrollTo({ top: window.innerHeight * 0.7, behavior: "smooth" });
+      }, 100);
     } catch (err: any) {
       setError(err.message || "Something went wrong. Please check your network and try again.");
     } finally {
@@ -78,41 +116,88 @@ export default function DashboardPage() {
       setSaved(true);
     } catch (err: any) {
       console.error("Failed to save recipe:", err);
-      throw err; // propagates to component button state
+      throw err;
     } finally {
       setIsSaving(false);
     }
   };
 
+  const handleLoadTrending = (item: typeof TRENDING_RECIPES[0]) => {
+    if (isGenerating) return;
+    setIngredients(item.ingredients);
+    setDietaryPreference(item.diet);
+    // Build instant stunning mock preview object so they get real instant visual response
+    setRecipe({
+      name: item.name,
+      ingredients: item.ingredients,
+      instructions: [
+        "Prepare ingredients and heat essential pan coatings over medium flame.",
+        "Incorporate aromatics and stir continuously until soft and fragrant.",
+        "Add core proteins and seasonal vegetables; simmer with dedicated spices.",
+        "Garnish beautifully with freshly chopped herbs and serve steaming hot.",
+      ],
+      chefsTip: "Toast spices gently before blending to unlock intense complex aromatics.",
+      cuisine: item.cuisine,
+      prepTime: "10m",
+      cookTime: item.time,
+      servings: 2,
+      nutrition: {
+        calories: parseInt(item.calories) || 450,
+        protein: 28,
+        carbs: 45,
+        fat: 18,
+      },
+    });
+    setSaved(false);
+    setTimeout(() => {
+      window.scrollTo({ top: window.innerHeight * 0.7, behavior: "smooth" });
+    }, 50);
+  };
+
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-      {/* Page Title header */}
-      <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200/60 rounded-full text-xs font-semibold text-amber-800 mb-3 shadow-sm">
-          <Sparkles className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
-          <span>AI Culinary Engine Powered by Claude</span>
+    <div className="min-h-screen pb-24">
+      {/* Immersive Futuristic Hero Header Banner Deck */}
+      <div className="relative bg-bite-red text-white py-16 sm:py-24 overflow-hidden mb-12 shadow-xl">
+        {/* Absolute Background image overlay with luxury dark contrast */}
+        <div className="absolute inset-0 z-0 opacity-25 mix-blend-overlay pointer-events-none">
+          <img
+            src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80"
+            alt="Premium Backdrop"
+            className="w-full h-full object-cover"
+          />
         </div>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight leading-tight">
-          Turn Leftovers Into <br className="hidden sm:inline" />
-          <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-            Five-Star Meals
-          </span>
-        </h1>
-        <p className="mt-3 text-sm sm:text-base text-gray-600 leading-relaxed">
-          Input available kitchen items below. Let Chef Claude evaluate complementary flavors and generate step-by-step instructions.
-        </p>
+
+        {/* Ambient background decoration */}
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-bite-accent rounded-full opacity-20 blur-3xl pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-bold text-bite-accent tracking-widest uppercase mb-4 border border-white/10">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Next-Gen Smart Cooking Assistant</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-4">
+              AI Recipes Built <br />
+              <span className="text-bite-accent">Instantly</span> For You.
+            </h1>
+
+            <p className="text-sm sm:text-base text-white/80 leading-relaxed font-medium mb-8 max-w-xl">
+              Stop stressing over food inventory. Input your kitchen parameters below to empower our engine with structured multi-layer generation models.
+            </p>
+          </div>
+        </div>
       </div>
 
-      {error && (
-        <div className="max-w-2xl mx-auto mb-8 p-4 bg-red-50 border border-red-100 rounded-2xl text-xs text-red-600 animate-fade-in text-center font-medium">
-          ⚠️ {error}
-        </div>
-      )}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        {error && (
+          <div className="p-4 bg-red-50 border border-red-100 rounded-2xl text-xs text-bite-red text-center font-bold animate-fade-in shadow-sm">
+            ⚠️ {error}
+          </div>
+        )}
 
-      {/* Main Grid content layout */}
-      <div className="grid lg:grid-cols-12 gap-8 items-start">
-        {/* Left Side: Input Form */}
-        <div className={`lg:col-span-5 ${recipe ? "lg:sticky lg:top-24" : "lg:col-span-8 lg:col-start-3"}`}>
+        {/* Core Workspace Input Deck */}
+        <div className="-mt-20 relative z-20">
           <IngredientInput
             ingredients={ingredients}
             onAddIngredient={handleAddIngredient}
@@ -124,9 +209,21 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* Right Side: Recipe output presentation */}
+        {/* Output Presentation Screen Area */}
         {recipe && (
-          <div className="lg:col-span-7 space-y-6">
+          <div className="pt-6 space-y-6 animate-slide-up">
+            <div className="flex items-center justify-between pb-2 border-b border-gray-200/60">
+              <span className="text-xs font-black uppercase tracking-wider text-bite-red flex items-center gap-1.5">
+                <Layers className="w-4 h-4 text-bite-accent" /> Generated Recipe Architecture
+              </span>
+              <button
+                onClick={() => setRecipe(null)}
+                className="text-xs font-bold text-gray-400 hover:text-bite-text transition-colors"
+              >
+                Clear Preview ×
+              </button>
+            </div>
+
             <RecipeDisplay
               recipe={recipe}
               onSaveRecipe={handleSaveRecipe}
@@ -136,6 +233,77 @@ export default function DashboardPage() {
             <NutritionCards nutrition={recipe.nutrition} />
           </div>
         )}
+
+        {/* Trending Recipes Pre-Generated Grid */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-sm font-black text-bite-text uppercase tracking-wider">
+                Trending AI Compositions
+              </h3>
+              <p className="text-xs text-bite-muted">Click to preview items and setup instantly</p>
+            </div>
+            <span className="text-[10px] font-bold text-bite-accent bg-bite-accent/10 px-2.5 py-1 rounded-full">
+              Live Preview
+            </span>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {TRENDING_RECIPES.map((item, idx) => (
+              <div
+                key={idx}
+                onClick={() => handleLoadTrending(item)}
+                className="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer flex flex-col justify-between active:scale-[0.98]"
+              >
+                {/* Visual Backdrop layout */}
+                <div className="relative h-44 w-full bg-bite-bg overflow-hidden shrink-0">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90" />
+
+                  {/* Top Badges */}
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                    <span className="px-2.5 py-0.5 bg-bite-red text-white text-[9px] font-black tracking-widest rounded-full uppercase">
+                      {item.cuisine}
+                    </span>
+                    <span className="p-1.5 bg-white/90 backdrop-blur-md rounded-full text-bite-text group-hover:text-bite-red shadow-sm transition-colors">
+                      <Bookmark className="w-3 h-3" />
+                    </span>
+                  </div>
+
+                  {/* Title overlay */}
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <h4 className="text-sm font-black text-white line-clamp-1 drop-shadow-sm">
+                      {item.name}
+                    </h4>
+                  </div>
+                </div>
+
+                {/* Footer Parameters */}
+                <div className="p-4 space-y-3">
+                  <p className="text-[11px] text-gray-500 line-clamp-1 font-medium">
+                    <span className="text-gray-400 font-bold">Includes:</span> {item.ingredients.join(", ")}
+                  </p>
+
+                  <div className="pt-2 border-t border-gray-50 flex items-center justify-between text-[10px] font-bold text-bite-muted">
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-bite-accent" /> {item.time}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Flame className="w-3 h-3 text-bite-red" /> {item.calories} kcal
+                    </span>
+                    <span className="text-bite-text group-hover:text-bite-red transition-colors flex items-center gap-0.5">
+                      Explore <ArrowRight className="w-2.5 h-2.5" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
