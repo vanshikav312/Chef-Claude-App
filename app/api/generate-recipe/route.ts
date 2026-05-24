@@ -26,9 +26,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
-      return NextResponse.json({ error: "GEMINI_API_KEY missing." }, { status: 500 });
+      return NextResponse.json({ error: "GROQ_API_KEY missing." }, { status: 500 });
     }
 
     const prompt = `You are a professional chef assistant. Based on the ingredients provided, generate a detailed recipe.
@@ -68,34 +68,37 @@ Rules:
 - respect the dietary preference strictly`;
 
     try {
-      // Updated the model name to gemini-2.0-flash as requested
+      // Updated the model name and endpoint to Groq as requested
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+        "https://api.groq.com/openai/v1/chat/completions",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
           body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 1024,
-            }
+            model: "llama-3.3-70b-versatile",
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.7,
+            max_tokens: 1024,
+            response_format: { type: "json_object" }
           })
         }
       );
 
       if (!response.ok) {
         const errText = await response.text();
-        throw new Error(`Gemini API Fetch Error (${response.status}): ${errText}`);
+        throw new Error(`Groq API Fetch Error (${response.status}): ${errText}`);
       }
 
       const data = await response.json();
       
-      if (!data.candidates || data.candidates.length === 0) {
-        throw new Error("No candidates returned from Gemini.");
+      if (!data.choices || data.choices.length === 0) {
+        throw new Error("No choices returned from Groq.");
       }
 
-      const rawText = data.candidates[0].content.parts[0].text;
+      const rawText = data.choices[0].message.content;
       const cleanedJson = cleanJsonResponse(rawText);
       const recipeData = JSON.parse(cleanedJson);
 
@@ -109,7 +112,7 @@ Rules:
 
       return NextResponse.json({ recipe: recipeData });
     } catch (aiError: any) {
-      console.error("Gemini Fetch Error:", aiError.message);
+      console.error("Groq Fetch Error:", aiError.message);
       return NextResponse.json({ error: "AI Generation failed: " + aiError.message }, { status: 500 });
     }
   } catch (error: any) {
