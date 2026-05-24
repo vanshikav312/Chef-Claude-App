@@ -122,36 +122,41 @@ export default function DashboardPage() {
     }
   };
 
-  const handleLoadTrending = (item: typeof TRENDING_RECIPES[0]) => {
+  const handleLoadTrending = async (item: typeof TRENDING_RECIPES[0]) => {
     if (isGenerating) return;
+    
+    // Update the UI to show the selected trending item's parameters
     setIngredients(item.ingredients);
     setDietaryPreference(item.diet);
-    // Build instant stunning mock preview object so they get real instant visual response
-    setRecipe({
-      name: item.name,
-      ingredients: item.ingredients,
-      instructions: [
-        "Prepare ingredients and heat essential pan coatings over medium flame.",
-        "Incorporate aromatics and stir continuously until soft and fragrant.",
-        "Add core proteins and seasonal vegetables; simmer with dedicated spices.",
-        "Garnish beautifully with freshly chopped herbs and serve steaming hot.",
-      ],
-      chefsTip: "Toast spices gently before blending to unlock intense complex aromatics.",
-      cuisine: item.cuisine,
-      prepTime: "10m",
-      cookTime: item.time,
-      servings: 2,
-      nutrition: {
-        calories: parseInt(item.calories) || 450,
-        protein: 28,
-        carbs: 45,
-        fat: 18,
-      },
-    });
+    
+    setIsGenerating(true);
+    setError("");
+    setRecipe(null);
     setSaved(false);
-    setTimeout(() => {
-      window.scrollTo({ top: window.innerHeight * 0.7, behavior: "smooth" });
-    }, 50);
+
+    try {
+      const response = await fetch("/api/generate-recipe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ingredients: item.ingredients, dietaryPreference: item.diet }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to generate recipe.");
+      }
+
+      setRecipe(data.recipe);
+      
+      setTimeout(() => {
+        window.scrollTo({ top: window.innerHeight * 0.7, behavior: "smooth" });
+      }, 100);
+    } catch (err: any) {
+      setError(err.message || "Something went wrong. Please check your network and try again.");
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
