@@ -2,10 +2,6 @@
 
 > A full-stack AI-powered cooking assistant that generates personalized recipes from your available ingredients — reducing food waste one meal at a time.
 
-## Live Demo
-**[chefclaude.vercel.app](https://chefclaude.vercel.app)** ← replace with your actual URL
-
----
 
 ## Features
 
