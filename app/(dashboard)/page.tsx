@@ -212,6 +212,8 @@ export default function DashboardPage() {
             onDietaryPreferenceChange={setDietaryPreference}
             onGenerateRecipe={handleGenerateRecipe}
             isGenerating={isGenerating}
+            servings={servings}
+            onServingsChange={setServings}
           />
         </div>
 
