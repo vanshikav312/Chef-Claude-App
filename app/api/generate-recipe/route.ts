@@ -33,9 +33,10 @@ export async function POST(request: Request) {
 
     const numServings = servings ? Number(servings) : 2;
 
-    const prompt = `You are a professional chef assistant. Based on the ingredients provided, generate a detailed recipe.
+    const prompt = `You are a professional chef assistant. Based on the ingredients provided, generate a detailed recipe scaled exactly for ${numServings} servings (people).
 Ingredients available: ${ingredients.join(", ")}
 Dietary preference: ${dietaryPreference || "None"}
+Number of servings (people): ${numServings}
 
 Respond ONLY with a valid JSON object — no markdown, no backticks, no explanation. 
 Use exactly this structure:
@@ -44,7 +45,7 @@ Use exactly this structure:
   "cuisine": "Italian",
   "prepTime": "10 mins",
   "cookTime": "20 mins",
-  "servings": 2,
+  "servings": ${numServings},
   "ingredients": [
     "200g chicken breast",
     "2 cloves garlic"
@@ -62,6 +63,8 @@ Use exactly this structure:
   }
 }
 Rules:
+- The "servings" field in the JSON response must be exactly ${numServings}.
+- All ingredients listed in the "ingredients" array MUST include clear quantities and measurements (e.g., "200g", "1 tbsp", "2 cloves", "1/2 cup", "3 units") scaled specifically to serve exactly ${numServings} people.
 - nutrition values are per serving, whole numbers only
 - ingredients are exact quantities as strings
 - instructions are clear numbered steps as strings
