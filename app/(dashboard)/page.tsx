@@ -73,7 +73,7 @@ export default function DashboardPage() {
       const response = await fetch("/api/generate-recipe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ingredients, dietaryPreference }),
+        body: JSON.stringify({ ingredients, dietaryPreference, servings }),
       });
 
       const data = await response.json();
