@@ -7,6 +7,7 @@
 - **AI Recipe Generation** — Input your ingredients and instantly receive a fully structured recipe powered by LLaMA 3.3 70B via Groq
 - **Cuisine Classification** — Automatic ML-based cuisine detection using Hugging Face zero-shot classification
 - **Dietary Preferences** — Supports None, Vegetarian, Vegan, and Gluten-Free filters, strictly enforced in the AI prompt
+- **Serving Customization** — Dynamically adjust recipe ingredients and quantities based on the number of people/servings
 - **Nutrition Estimation** — Per-serving breakdown of calories, protein, carbs, and fats — estimated by the AI model
 - **Save Favourites** — Authenticated users can save generated recipes and access them from their personal dashboard
 - **Generation History** — Every recipe generation is logged and accessible in reverse chronological order
