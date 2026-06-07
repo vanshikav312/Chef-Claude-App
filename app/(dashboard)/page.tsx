@@ -45,6 +45,7 @@ const TRENDING_RECIPES = [
 export default function DashboardPage() {
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [dietaryPreference, setDietaryPreference] = useState("None");
+  const [servings, setServings] = useState(2);
   const [isGenerating, setIsGenerating] = useState(false);
   const [recipe, setRecipe] = useState<GeneratedRecipe | null>(null);
   const [error, setError] = useState("");
