@@ -14,7 +14,7 @@ function cleanJsonResponse(text: string): string {
 
 export async function POST(request: Request) {
   try {
-    const { ingredients, dietaryPreference } = await request.json();
+    const { ingredients, dietaryPreference, servings } = await request.json();
 
     if (!ingredients || !Array.isArray(ingredients) || ingredients.length < 2) {
       return NextResponse.json({ error: "At least 2 ingredients are required." }, { status: 400 });
@@ -30,6 +30,8 @@ export async function POST(request: Request) {
     if (!apiKey) {
       return NextResponse.json({ error: "GROQ_API_KEY missing." }, { status: 500 });
     }
+
+    const numServings = servings ? Number(servings) : 2;
 
     const prompt = `You are a professional chef assistant. Based on the ingredients provided, generate a detailed recipe.
 Ingredients available: ${ingredients.join(", ")}
