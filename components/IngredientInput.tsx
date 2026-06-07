@@ -43,6 +43,8 @@ export default function IngredientInput({
   onDietaryPreferenceChange,
   onGenerateRecipe,
   isGenerating,
+  servings,
+  onServingsChange,
 }: IngredientInputProps) {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
@@ -218,6 +220,43 @@ export default function IngredientInput({
                 </button>
               );
             })}
+          </div>
+        </div>
+
+        {/* Servings (Number of People) Customization */}
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-bite-bg/25 border border-gray-100 rounded-3xl">
+          <div>
+            <span className="text-[10px] font-bold text-bite-muted uppercase tracking-wider block mb-1">
+              Servings / Number of People
+            </span>
+            <p className="text-xs text-bite-muted font-medium">
+              Ingredient quantities will scale dynamically for this headcount.
+            </p>
+          </div>
+          <div className="flex items-center gap-3.5 self-start sm:self-center">
+            <button
+              type="button"
+              onClick={() => onServingsChange(Math.max(1, servings - 1))}
+              disabled={isGenerating || servings <= 1}
+              className="w-10 h-10 rounded-full border border-gray-200 bg-white hover:bg-bite-bg text-bite-text disabled:opacity-50 disabled:cursor-not-allowed hover:text-bite-red transition-all flex items-center justify-center font-bold shadow-sm active:scale-95"
+            >
+              <Minus className="w-4 h-4" />
+            </button>
+            <div className="flex items-center gap-1.5 min-w-[70px] justify-center">
+              <Users className="w-4 h-4 text-bite-accent" />
+              <span className="text-sm font-black text-bite-text">{servings}</span>
+              <span className="text-[11px] font-bold text-bite-muted">
+                {servings === 1 ? "person" : "people"}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => onServingsChange(Math.min(12, servings + 1))}
+              disabled={isGenerating || servings >= 12}
+              className="w-10 h-10 rounded-full border border-gray-200 bg-white hover:bg-bite-bg text-bite-text disabled:opacity-50 disabled:cursor-not-allowed hover:text-bite-red transition-all flex items-center justify-center font-bold shadow-sm active:scale-95"
+            >
+              <Plus className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
