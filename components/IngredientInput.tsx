@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { Plus, X, Sparkles, Layers, ArrowRight, Check } from "lucide-react";
+import { Plus, Minus, X, Sparkles, Layers, ArrowRight, Check, Users } from "lucide-react";
 
 interface IngredientInputProps {
   ingredients: string[];
