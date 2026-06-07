@@ -2,7 +2,6 @@
 
 > A full-stack AI-powered cooking assistant that generates personalized recipes from your available ingredients — reducing food waste one meal at a time.
 
-
 ## Features
 
 - **AI Recipe Generation** — Input your ingredients and instantly receive a fully structured recipe powered by LLaMA 3.3 70B via Groq
