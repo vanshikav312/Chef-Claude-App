@@ -11,6 +11,8 @@ interface IngredientInputProps {
   onDietaryPreferenceChange: (pref: string) => void;
   onGenerateRecipe: () => void;
   isGenerating: boolean;
+  servings: number;
+  onServingsChange: (servings: number) => void;
 }
 
 const DIETARY_OPTIONS = ["None", "Vegetarian", "Vegan", "Gluten-Free"];
